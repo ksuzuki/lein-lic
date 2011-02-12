@@ -1,0 +1,57 @@
+;; %! Copyright (C) 2011 Romana  All rights reserved. !%
+;; 
+;; This program is free software: you can redistribute it and/or modify it
+;; under the terms of the GNU General Public License as published by the Free
+;; Software Foundation, either version 3 of the License, or (at your option)
+;; any later version.
+;; 
+;; This program is distributed in the hope that it will be useful, but WITHOUT
+;; ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+;; FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+;; more details. 
+;; 
+;; You should have received a copy of the GNU General Public License along with
+;; this program.  If not, see <http://www.gnu.org/licenses/>.
+
+(ns dregen
+  (:gen-class)
+  (:use dregen.generator))
+
+(defn k9-affirmative
+  [fun]
+  (println "k9: affirmative")
+  (fun))
+
+(defn k9-negative
+  [cmd tgt]
+  (println "k9: negative. unknown command/target:" cmd tgt))
+
+(defn k9-report
+  [msg & status]
+  (println "k9:" msg)
+  (when (false? (first status))
+    (println "k9: I am sorry")))
+
+(defn regen-doctor
+  []
+  (let [part (if (< (* (rand) 10) 8) :head :hair)]
+    (loop [status (regen part)]
+      (cond
+       (= status :done) (k9-report "regeneration of docutor completed")
+       (= status :fail) (k9-report "regenerating doctor failed" false)
+       :else (recur (regen status))))))
+
+(defn k9
+  [command target]
+  (cond
+   (and (= command :regenerate) (= target :doctor)) (k9-affirmative regen-doctor)
+   :else (k9-negative command target)))
+
+(defn dregen
+  []
+  (println "regenerate doctor, k9!")
+  (k9 :regenerate :doctor))
+
+(defn -main
+  [& argv]
+  (dregen))

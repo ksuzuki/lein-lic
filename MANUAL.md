@@ -24,7 +24,7 @@ auto-generated copyright notice. But you can customize them.
 
 Add this line to your `project.clj`:
 
-> :dev-dependencies [[org.clojars.ksuzuki/lein-lic lic-version]]
+> :dev-dependencies [[lein-lic lic-version]]
 
 where '`lic-version`' is the `lic` version string such as "1.0.0".
 Then run '`lein deps`' to get `lic` ready to use from the `lein` command.
